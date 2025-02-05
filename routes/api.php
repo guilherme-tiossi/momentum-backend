@@ -19,5 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::withoutMiddleware([Authenticate::class])->post('create-user', [App\Http\Controllers\UserController::class, 'store'])
-//     ->name('create-user');
+Route::middleware('auth:sanctum')->apiResource('users', App\Http\Controllers\UserController::class);
+Route::withoutMiddleware([Authenticate::class])->post('create-user', [App\Http\Controllers\UserController::class, 'store'])
+    ->name('create-user');
