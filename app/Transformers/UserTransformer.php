@@ -17,12 +17,12 @@ class UserTransformer extends TransformerAbstract
         return [
             'id' => $user->id,
             'name' => $user->name,
+            'email' => $user->email,
             'username' => $user->username,
             'pfp' => $user->pfp,
             'header' => $user->header,
             'uses_default_pfp' => $user->uses_default_pfp,
             'uses_default_header' => $user->uses_default_header,
-            'email' => $user->email,
         ];
     }
 }
