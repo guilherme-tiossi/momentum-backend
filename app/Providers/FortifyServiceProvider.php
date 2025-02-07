@@ -2,22 +2,22 @@
 
 namespace App\Providers;
 
-use App\Actions\Fortify\CreateNewUser;
-use App\Actions\Fortify\ResetUserPassword;
-use App\Actions\Fortify\UpdateUserPassword;
-use App\Actions\Fortify\UpdateUserProfileInformation;
-use App\Transformers\UserTransformer;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\ServiceProvider;
+use Auth;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Laravel\Fortify\Fortify;
+use App\Transformers\UserTransformer;
+use App\Actions\Fortify\CreateNewUser;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Cache\RateLimiting\Limit;
+use App\Actions\Fortify\UpdateUserPassword;
+use App\Actions\Fortify\ResetUserPassword;
+use Illuminate\Support\Facades\RateLimiter;
 use Laravel\Fortify\Contracts\LoginResponse;
+use League\Fractal\Serializer\JsonApiSerializer;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 use Laravel\Fortify\Contracts\PasswordUpdateResponse;
 use Laravel\Fortify\Contracts\TwoFactorLoginResponse;
-use Laravel\Fortify\Fortify;
-use League\Fractal\Serializer\JsonApiSerializer;
 
 class FortifyServiceProvider extends ServiceProvider
 {
