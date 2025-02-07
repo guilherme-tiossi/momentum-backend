@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Transformers\UserTransformer;
 use League\Fractal\Serializer\JsonApiSerializer;
 
