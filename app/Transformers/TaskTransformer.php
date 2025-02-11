@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class TaskTransformer extends TransformerAbstract
 {
-    protected static array $processedTasks = []; 
+    protected static array $processedTasks = [];
 
     protected array $availableIncludes = ['user'];
     protected array $defaultIncludes = ['parent', 'subtasks'];
@@ -18,7 +18,7 @@ class TaskTransformer extends TransformerAbstract
             'id' => $task->id,
             'title' => $task->title,
             'description' => $task->description,
-            'date' => $task->date,
+            'date' => $task->date ? $task->date->format('Y-m-d') : null,
             'finished' => $task->finished,
             'level' => $task->level
         ];

@@ -18,12 +18,18 @@ class Task extends Model
         'finished',
         'level',
         'user_id',
-        'parent_id'
+        'parent_id',
+        'includes_weekend'
     ];
 
     protected $casts = [
         'date' => 'date:Y-m-d',
     ];
+
+    public function scopeIncludeWeekend($query, $includes)
+    {
+        return $query->where('tasks.includes_weekend', $includes);
+    }
 
     public function scopeByFinished($query, $finished)
     {
@@ -35,7 +41,7 @@ class Task extends Model
     public function scopeByDate($query, $date)
     {
         if ($date) {
-            return $query->where('tasks.date', $date);
+            return $query->where('tasks.date', $date)->orWhereNull('tasks.date');
         }
     }
 
