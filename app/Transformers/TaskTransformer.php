@@ -37,7 +37,7 @@ class TaskTransformer extends TransformerAbstract
 
         self::$processedTasks[] = $task->parent->id;
 
-        return $this->item($task->parent, new TaskTransformer(), 'tasks');
+        return $this->item($task->parent, new TaskTransformer(), 'parent_tasks');
     }
 
     public function includeSubtasks(Task $task)
@@ -48,6 +48,6 @@ class TaskTransformer extends TransformerAbstract
 
         self::$processedTasks[] = $task->id;
 
-        return $this->collection($task->subtasks, new TaskTransformer(), 'tasks');
+        return $this->collection($task->subtasks, new TaskTransformer(), 'sub_tasks');
     }
 }

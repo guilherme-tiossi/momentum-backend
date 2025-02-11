@@ -25,6 +25,20 @@ class Task extends Model
         'date' => 'date:Y-m-d',
     ];
 
+    public function scopeByFinished($query, $finished)
+    {
+        if ($finished) {
+            return $query->where('tasks.finished', $finished);
+        }
+    }
+
+    public function scopeByDate($query, $date)
+    {
+        if ($date) {
+            return $query->where('tasks.date', $date);
+        }
+    }
+
     public function scopeByUser($query, $user_id)
     {
         return $query->where('tasks.user_id', $user_id);
@@ -40,7 +54,7 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function parent(): BelongsTo 
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Task::class, 'parent_id', 'id');
     }

@@ -24,7 +24,7 @@ class TaskController extends Controller
         return fractal()
             ->serializeWith(new JsonApiSerializer())
             ->collection($tasks, new TaskTransformer(), 'tasks')
-            ->respond(201);
+            ->respond(200);
     }
 
     public function store(TaskRequest $request)
@@ -42,7 +42,7 @@ class TaskController extends Controller
         return fractal()
             ->serializeWith(new JsonApiSerializer())
             ->item($task, new TaskTransformer(), 'tasks')
-            ->respond(201);
+            ->respond(200);
     }
 
     public function update(TaskRequest $request, Task $task)
@@ -52,7 +52,7 @@ class TaskController extends Controller
         return fractal()
             ->serializeWith(new JsonApiSerializer())
             ->item($task, new TaskTransformer(), 'tasks')
-            ->respond(201);
+            ->respond(200);
     }
 
     public function destroy(Task $task)
