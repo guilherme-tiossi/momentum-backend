@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('uses_default_pfp')->default(true);
             $table->boolean('uses_default_header')->default(true);
             $table->timestamp('email_verified_at')->nullable();
+            $table->date('last_login_date')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

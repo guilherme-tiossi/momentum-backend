@@ -3,20 +3,22 @@
 namespace App\Services;
 
 use Auth;
+use Carbon\Carbon;
 use App\Models\Task;
 
 class TaskService
 {
     public function listTasks()
     {
-        $finishedParam = request()->finished;
         $dateParam = request()->date;
-        
+        $date = Carbon::parse($dateParam);
+        $finishedParam = request()->finished;
+
         $query = Task::with(['parent', 'subtasks', 'user'])
             ->byUser(Auth::id())
             ->byDate($dateParam)
             ->byFinished($finishedParam);
-    
+
         /**
          * By default, the API should return only parent tasks in the `data` field, 
          * while subtasks are included under the `included` key.
@@ -31,14 +33,18 @@ class TaskService
         if (!$finishedParam) {
             $query->byParent(null);
         }
-    
+
+        if ($date->isWeekend()) {
+            $query->includeWeekend(true);
+        }
+
         return $query->get();
-    }    
+    }
 
     public function createTask(array $data)
     {
         $task = Task::make($data['data']['attributes']);
-        
+
         $task->user()->associate(Auth::id());
         if (isset($data['data']['relationships']['task'])) {
             $task->parent()->associate($data['data']['relationships']['task']['data']['id']);
@@ -56,7 +62,7 @@ class TaskService
     public function updateTask(array $data, Task $task)
     {
         $task->fill($data['attributes']);
-        
+
         if (isset($data['data']['relationships']['task'])) {
             $task->parent()->associate($data['data']['relationships']['task']['data']['id']);
         }
@@ -72,9 +78,9 @@ class TaskService
     {
         $tasksToDelete = $this->getAllSubTasks($task);
         $tasksToDelete[] = $task;
-    
-        $taskIds = array_map(fn ($t) => $t->id, $tasksToDelete);
-    
+
+        $taskIds = array_map(fn($t) => $t->id, $tasksToDelete);
+
         foreach (array_chunk($taskIds, 300) as $chunk) {
             Task::whereIn('id', $chunk)->delete();
         }

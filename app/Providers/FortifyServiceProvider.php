@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Auth;
+use Carbon\Carbon;
+use App\Models\Task;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
@@ -29,9 +31,22 @@ class FortifyServiceProvider extends ServiceProvider
         $responseClass = new class implements LoginResponse, PasswordUpdateResponse, TwoFactorLoginResponse {
             public function toResponse($request)
             {
+                $user = Auth::user();
+                $today = Carbon::now()->toDateString();
+                $lastLoginDate = $user->last_login_date ? Carbon::parse($user->last_login_date)->toDateString() : null;
+
+                // Resets finished status of daily tasks to false on a new day
+                if ($lastLoginDate !== $today) {
+                    Task::byUser($user->id)->byFinished(true)->whereNull('date')->update(['finished' => false]);
+                }
+
+                $user->last_login_date = $today;
+                $user->save();
+                Auth::user()->refresh();
+
                 return fractal()
                     ->serializeWith(new JsonApiSerializer())
-                    ->item(Auth::user(), new UserTransformer(), 'users')
+                    ->item($user, new UserTransformer(), 'users')
                     ->respond();
             }
         };

@@ -18,8 +18,9 @@ return new class extends Migration
             $table->integer('level')->nullable()->constrained();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->date('date');
+            $table->date('date')->nullable();
             $table->boolean('finished')->default(false);
+            $table->boolean('includes_weekend')->default(false);
 
             $table->timestamps();
             $table->softDeletes();

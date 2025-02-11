@@ -26,6 +26,7 @@ class User extends Authenticatable
         'header',
         'uses_default_pfp',
         'uses_default_header',
+        'last_login_date'
     ];
 
     /**
@@ -45,5 +46,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'password' => 'hashed',
+        'last_login_date' => 'date:Y-m-d'
     ];
 }
