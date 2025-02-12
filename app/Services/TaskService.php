@@ -5,6 +5,7 @@ namespace App\Services;
 use Auth;
 use Carbon\Carbon;
 use App\Models\Task;
+use App\Events\FinishedTask;
 
 class TaskService
 {
@@ -61,7 +62,9 @@ class TaskService
 
     public function updateTask(array $data, Task $task)
     {
-        $task->fill($data['attributes']);
+        $initial_status = $task->finished;
+
+        $task->fill($data['data']['attributes']);
 
         if (isset($data['data']['relationships']['task'])) {
             $task->parent()->associate($data['data']['relationships']['task']['data']['id']);
@@ -69,7 +72,9 @@ class TaskService
 
         $task->save();
 
-        // event(new TaskUpdated($task));
+        if ($task->finished == true && $initial_status == false) {
+            event(new FinishedTask($task));
+        }
 
         return $task;
     }
