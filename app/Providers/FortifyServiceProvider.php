@@ -32,12 +32,19 @@ class FortifyServiceProvider extends ServiceProvider
             public function toResponse($request)
             {
                 $user = Auth::user();
-                $today = Carbon::now()->toDateString();
+                $now = Carbon::now();
+                $today = $now->toDateString();
                 $lastLoginDate = $user->last_login_date ? Carbon::parse($user->last_login_date)->toDateString() : null;
 
                 // Resets finished status of daily tasks to false on a new day
                 if ($lastLoginDate !== $today) {
                     Task::byUser($user->id)->byFinished(true)->whereNull('date')->update(['finished' => false]);
+                }
+
+                // Clears the users streak
+                if ($user->last_finished_task && $user->last_finished_task->diffInHours($now) > 48) {
+                    $user->last_finished_task = null;
+                    $user->streak = null;
                 }
 
                 $user->last_login_date = $today;

@@ -26,7 +26,9 @@ class User extends Authenticatable
         'header',
         'uses_default_pfp',
         'uses_default_header',
-        'last_login_date'
+        'last_login_date',
+        'last_finished_task',
+        'streak'
     ];
 
     /**
@@ -46,6 +48,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'password' => 'hashed',
-        'last_login_date' => 'date:Y-m-d'
+        'last_finished_task' => 'date:Y-m-d',
+        'initial_streak_date' => 'date:Y-m-d'
     ];
 }

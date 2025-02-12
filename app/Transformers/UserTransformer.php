@@ -13,7 +13,6 @@ class UserTransformer extends TransformerAbstract
 
     public function transform(User $user)
     {
-
         return [
             'id' => $user->id,
             'name' => $user->name,
@@ -23,6 +22,7 @@ class UserTransformer extends TransformerAbstract
             'header' => $user->header,
             'uses_default_pfp' => $user->uses_default_pfp,
             'uses_default_header' => $user->uses_default_header,
+            'streak' => $user->streak
         ];
     }
 }
