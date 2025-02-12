@@ -5,15 +5,23 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\UserService;
 use App\Http\Requests\UserRequest;
 use App\Transformers\UserTransformer;
 use League\Fractal\Serializer\JsonApiSerializer;
 
 class UserController extends Controller
 {
+    private UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function store(UserRequest $request)
     {
-        $user = User::make($request->validated('data.attributes'));
+        $user = $this->userService->createUser($request->validated());
         // adicionar interesses
         $user->save();
 
@@ -48,7 +56,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        $user->update($request->validated('data.attributes'));
+        $user = $this->userService->updateUser($request->validated('data.attributes'), $user);
 
         return fractal()
             ->parseIncludes(['address', 'plan'])
@@ -65,7 +73,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Você não tem autorização para realizar essa ação.'], 403);
         }
 
-        $user->delete();
+        $this->userService->deleteUser($user);
 
         return response()->noContent();
     }
