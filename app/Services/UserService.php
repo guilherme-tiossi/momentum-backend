@@ -8,7 +8,7 @@ class UserService
 {
     public function createUser(array $data)
     {
-        $user = User::make($data);
+        $user = User::make($data['data']['attributes']);
 
         $user->save();
 
@@ -17,7 +17,7 @@ class UserService
 
     public function updateUser(array $data, User $user)
     {
-        $user->fill($data['attributes']);
+        $user->fill($data['data']['attributes']);
 
         $user->save();
 
