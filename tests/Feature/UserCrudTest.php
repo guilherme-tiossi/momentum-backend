@@ -4,11 +4,12 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserCrudTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /** @test */
     public function creates_user_and_returns_transformed_data()
