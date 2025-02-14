@@ -73,6 +73,14 @@ class TaskService
         $task->save();
 
         if ($task->finished == true && $initial_status == false) {
+            $tasksToUpdate = $this->getAllUnfinishedSubTasks($task);
+
+            $taskIds = array_map(fn($t) => $t->id, $tasksToUpdate);
+
+            foreach (array_chunk($taskIds, 300) as $chunk) {
+                Task::whereIn('id', $chunk)->update(['finished' => true]);
+            }
+
             event(new FinishedTask($task));
         }
 
@@ -98,6 +106,19 @@ class TaskService
         $tasks = [];
 
         foreach ($task->subtasks as $subtask) {
+            $tasks[] = $subtask;
+            $tasks = array_merge($tasks, $this->getAllSubTasks($subtask));
+        }
+
+        return $tasks;
+    }
+
+    private function getAllUnfinishedSubTasks(Task $task)
+    {
+        $tasks = [];
+
+        foreach ($task->subtasks as $subtask) {
+            if ($subtask->finished) continue;
             $tasks[] = $subtask;
             $tasks = array_merge($tasks, $this->getAllSubTasks($subtask));
         }

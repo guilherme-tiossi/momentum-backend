@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\Task;
 use App\Services\TaskService;
 use App\Http\Requests\TaskRequest;
@@ -57,8 +58,12 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
+        if (($task->user_id != Auth::id())) {
+            return response()->json(['error' => 'Você não tem autorização para realizar essa ação.'], 403);
+        }
+
         $this->taskService->deleteTask($task);
 
-        return response()->noContent(); 
+        return response()->noContent();
     }
 }
