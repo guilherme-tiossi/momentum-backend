@@ -25,7 +25,7 @@ class TaskRequest extends FormRequest
             'data.type' => ['required', 'string', 'in:tasks'],
             'data.attributes.title' => ['required', 'string', 'max:255'],
             'data.attributes.description' => ['required', 'string'],
-            'data.attributes.date' => ['required', 'date'],
+            'data.attributes.date' => ['sometimes', 'date'],
             'data.attributes.finished' => ['sometimes', 'boolean'],
             'data.attributes.includes_weekend' => ['sometimes', 'boolean'],
 

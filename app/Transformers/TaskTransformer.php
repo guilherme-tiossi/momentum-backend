@@ -8,9 +8,15 @@ use League\Fractal\TransformerAbstract;
 class TaskTransformer extends TransformerAbstract
 {
     protected static array $processedTasks = [];
+    protected bool $flatMode = false;
 
     protected array $availableIncludes = ['user'];
     protected array $defaultIncludes = ['parent', 'subtasks'];
+
+    public function __construct(bool $flatMode = false)
+    {
+        $this->flatMode = $flatMode;
+    }
 
     public function transform(Task $task)
     {
@@ -20,7 +26,7 @@ class TaskTransformer extends TransformerAbstract
             'description' => $task->description,
             'date' => $task->date ? $task->date->format('Y-m-d') : null,
             'finished' => $task->finished,
-            'level' => $task->level
+            'level' => $task->level,
         ];
     }
 
@@ -31,23 +37,28 @@ class TaskTransformer extends TransformerAbstract
 
     public function includeParent(Task $task)
     {
-        if (!$task->parent || in_array($task->parent->id, self::$processedTasks)) {
+        if ($this->flatMode || !$task->parent || $this->isAlreadyProcessed($task->parent->id)) {
             return null;
         }
 
-        self::$processedTasks[] = $task->parent->id;
-
-        return $this->item($task->parent, new TaskTransformer(), 'parent_tasks');
+        return $this->item($task->parent, new TaskTransformer($this->flatMode), 'parent_tasks');
     }
 
     public function includeSubtasks(Task $task)
     {
-        if (in_array($task->id, self::$processedTasks)) {
+        if ($this->flatMode || $this->isAlreadyProcessed($task->id)) {
             return null;
         }
 
-        self::$processedTasks[] = $task->id;
+        return $this->collection($task->subtasks, new TaskTransformer($this->flatMode), 'sub_tasks');
+    }
 
-        return $this->collection($task->subtasks, new TaskTransformer(), 'sub_tasks');
+    private function isAlreadyProcessed(int $taskId): bool
+    {
+        if (in_array($taskId, self::$processedTasks)) {
+            return true;
+        }
+        self::$processedTasks[] = $taskId;
+        return false;
     }
 }
