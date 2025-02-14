@@ -20,21 +20,6 @@ class TaskService
             ->byDate($dateParam)
             ->byFinished($finishedParam);
 
-        /**
-         * By default, the API should return only parent tasks in the `data` field, 
-         * while subtasks are included under the `included` key.
-         * 
-         * However, when filtering by "finished" status (completed/uncompleted tasks),
-         * some subtasks might be marked as finished while their parent tasks are not.
-         * In such cases, the API should return these subtasks regardless of their parent’s status.
-         * 
-         * To achieve this, the default filter that restricts results to only parent tasks 
-         * (where `parent_id` is null) should be removed when filtering by finished status.
-         */
-        if (!$finishedParam) {
-            $query->byParent(null);
-        }
-
         if ($date->isWeekend()) {
             $query->includeWeekend(true);
         }

@@ -24,7 +24,7 @@ class TaskController extends Controller
 
         return fractal()
             ->serializeWith(new JsonApiSerializer())
-            ->collection($tasks, new TaskTransformer(), 'tasks')
+            ->collection($tasks, new TaskTransformer(request()->flatten ?? false), 'tasks')
             ->respond(200);
     }
 
