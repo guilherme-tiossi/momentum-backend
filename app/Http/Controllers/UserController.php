@@ -56,7 +56,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        $user = $this->userService->updateUser($request->validated('data.attributes'), $user);
+        $user = $this->userService->updateUser($request->validated(), $user);
 
         return fractal()
             ->parseIncludes(['address', 'plan'])

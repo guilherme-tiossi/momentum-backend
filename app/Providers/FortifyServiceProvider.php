@@ -42,7 +42,7 @@ class FortifyServiceProvider extends ServiceProvider
                 }
 
                 // Clears the users streak
-                if ($user->last_finished_task && $user->last_finished_task->diffInHours($now) > 48) {
+                if ($user->last_finished_task && $user->last_finished_task->diffInDays($now) > 1) {
                     $user->last_finished_task = null;
                     $user->streak = null;
                 }

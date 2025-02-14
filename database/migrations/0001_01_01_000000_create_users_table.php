@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->date('last_login_date')->nullable();
             $table->timestamp('last_finished_task')->nullable();
-            $table->integer('streak');
+            $table->integer('streak')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
