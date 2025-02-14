@@ -16,7 +16,7 @@ class UpdateUserStreak
 
         if (!$user->last_finished_task || $user->last_finished_task->diffInDays($now) === 1) {
             $streak++;
-            $data = ['attributes' => ['last_finished_task' => $now, 'streak' => $streak]];
+            $data = ['data' => ['attributes' => ['last_finished_task' => $now, 'streak' => $streak]]];
             app(UserService::class)->updateUser($data, $user);
         }
     }
