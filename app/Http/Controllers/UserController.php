@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         $user = $this->userService->createUser($request->validated());
         // add interests
-        $user->save();
+        // $user->save();
 
         return fractal()
             ->serializeWith(new JsonApiSerializer())
