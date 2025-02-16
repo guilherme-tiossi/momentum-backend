@@ -24,28 +24,14 @@ class TaskListTest extends TestCase
     /** @test */
     public function returns_tasks_in_tree_structure_by_default()
     {
-        $parentTask = Task::factory()->create(['user_id' => $this->user->id, 'level' => 0]);
-        $subTask = Task::factory()->create(['user_id' => $this->user->id, 'parent_id' => $parentTask->id, 'level' => 1]);
+        $parentTask = Task::factory()->create(['user_id' => $this->user->id, 'level' => 0, 'date' => null, 'includes_weekend' => true]);
+        $subTask = Task::factory()->create(['user_id' => $this->user->id, 'parent_id' => $parentTask->id, 'level' => 1, 'date' => null, 'includes_weekend' => true]);
 
-        $response = $this->getJson('/api/tasks?flatten=false');
-
-        $response->assertStatus(200)
-            ->assertJsonPath('data.0.id', (string) $parentTask->id);
-        // ->assertJsonPath('included.0.id', (string) $subTask->id);
-    }
-
-    /** @test */
-    public function returns_flat_list_when_flatten_is_true()
-    {
-        $parentTask = Task::factory()->create(['user_id' => $this->user->id, 'level' => 0]);
-        $subTask = Task::factory()->create(['user_id' => $this->user->id, 'parent_id' => $parentTask->id, 'level' => 1]);
-
-        $response = $this->getJson('/api/tasks?flatten=true');
+        $response = $this->getJson('/api/tasks?level=0');
 
         $response->assertStatus(200)
             ->assertJsonPath('data.0.id', (string) $parentTask->id)
-            ->assertJsonPath('data.1.id', (string) $subTask->id)
-            ->assertJsonMissing(['included']);
+            ->assertJsonPath('data.0.attributes.subtasks.0.id', $subTask->id);
     }
 
     /** @test */
@@ -63,7 +49,7 @@ class TaskListTest extends TestCase
             'includes_weekend' => true
         ]);
 
-        // ensures taht date is always weekday
+        // ensures that date is always weekday
         $response = $this->getJson('/api/tasks?date=' . now()->addDays((8 - now()->dayOfWeek) % 7)->toDateString());
 
         $response->assertStatus(200)

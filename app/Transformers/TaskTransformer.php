@@ -10,13 +10,7 @@ class TaskTransformer extends TransformerAbstract
     protected static array $processedTasks = [];
     protected bool $flatMode = false;
 
-    protected array $availableIncludes = ['user'];
-    protected array $defaultIncludes = ['parent', 'subtasks'];
-
-    public function __construct(bool $flatMode = false)
-    {
-        $this->flatMode = $flatMode;
-    }
+    protected array $availableIncludes = ['user', 'parent'];
 
     public function transform(Task $task)
     {
@@ -27,6 +21,9 @@ class TaskTransformer extends TransformerAbstract
             'date' => $task->date ? $task->date->format('Y-m-d') : null,
             'finished' => $task->finished,
             'level' => $task->level,
+            'subtasks' => $task->subtasks->isEmpty()
+                ? []
+                : $task->subtasks->map(fn($subtask) => (new TaskTransformer())->transform($subtask))->all(),
         ];
     }
 
@@ -37,28 +34,8 @@ class TaskTransformer extends TransformerAbstract
 
     public function includeParent(Task $task)
     {
-        if ($this->flatMode || !$task->parent || $this->isAlreadyProcessed($task->parent->id)) {
-            return null;
+        if ($task->parent) {
+            return $this->item($task->parent, new TaskTransformer(), 'parent_tasks');
         }
-
-        return $this->item($task->parent, new TaskTransformer($this->flatMode), 'parent_tasks');
-    }
-
-    public function includeSubtasks(Task $task)
-    {
-        if ($this->flatMode || $this->isAlreadyProcessed($task->id)) {
-            return null;
-        }
-
-        return $this->collection($task->subtasks, new TaskTransformer($this->flatMode), 'sub_tasks');
-    }
-
-    private function isAlreadyProcessed(int $taskId): bool
-    {
-        if (in_array($taskId, self::$processedTasks)) {
-            return true;
-        }
-        self::$processedTasks[] = $taskId;
-        return false;
     }
 }
