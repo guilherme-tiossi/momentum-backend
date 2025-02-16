@@ -24,7 +24,7 @@ class TaskController extends Controller
 
         return fractal()
             ->serializeWith(new JsonApiSerializer())
-            ->collection($tasks, new TaskTransformer(request()->flatten ?? false), 'tasks')
+            ->collection($tasks, new TaskTransformer(), 'tasks')
             ->respond(200);
     }
 
@@ -33,6 +33,7 @@ class TaskController extends Controller
         $task = $this->taskService->createTask($request->validated());
 
         return fractal()
+            ->parseIncludes(['parent'])
             ->serializeWith(new JsonApiSerializer())
             ->item($task, new TaskTransformer(), 'tasks')
             ->respond(201);
@@ -41,6 +42,7 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         return fractal()
+            ->parseIncludes(['parent'])
             ->serializeWith(new JsonApiSerializer())
             ->item($task, new TaskTransformer(), 'tasks')
             ->respond(200);
@@ -51,6 +53,7 @@ class TaskController extends Controller
         $task = $this->taskService->updateTask($request->validated(), $task);
 
         return fractal()
+            ->parseIncludes(['parent'])
             ->serializeWith(new JsonApiSerializer())
             ->item($task, new TaskTransformer(), 'tasks')
             ->respond(200);

@@ -12,16 +12,19 @@ class TaskService
     public function listTasks()
     {
         $dateParam = request()->date;
+        $levelParam = request()->level;
         $date = Carbon::parse($dateParam);
         $finishedParam = request()->finished;
 
         $query = Task::with(['parent', 'subtasks', 'user'])
             ->byUser(Auth::id())
-            ->byDate($dateParam)
+            ->byLevel($levelParam)
             ->byFinished($finishedParam);
 
         if ($date->isWeekend()) {
-            $query->includeWeekend(true);
+            $query->includeWeekend(true, $dateParam);
+        } else {
+            $query->byDate($dateParam);
         }
 
         return $query->get();

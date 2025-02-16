@@ -26,15 +26,28 @@ class Task extends Model
         'date' => 'date:Y-m-d',
     ];
 
-    public function scopeIncludeWeekend($query, $includes)
+    public function scopeIncludeWeekend($query, $includes, $date)
     {
-        return $query->where('tasks.includes_weekend', $includes);
+        $query = $query->where('tasks.includes_weekend', $includes);
+
+        if ($date) {
+            $query = $query->orWhere('tasks.date', $date);
+        }
+
+        return $query;
     }
 
     public function scopeByFinished($query, $finished)
     {
         if ($finished) {
             return $query->where('tasks.finished', $finished);
+        }
+    }
+
+    public function scopeByLevel($query, $level)
+    {
+        if (!is_null($level)) {
+            return $query->where('tasks.level', $level);
         }
     }
 
