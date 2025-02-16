@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Http\Requests\UserRequest;
 use App\Transformers\UserTransformer;
+use App\Http\Requests\UserUpdateRequest;
 use League\Fractal\Serializer\JsonApiSerializer;
 
 class UserController extends Controller
@@ -22,7 +23,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $user = $this->userService->createUser($request->validated());
-        // adicionar interesses
+        // add interests
         $user->save();
 
         return fractal()
@@ -31,11 +32,10 @@ class UserController extends Controller
             ->respond(201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user, Request $request)
+    public function show(User $user)
     {
+        $user->fresh(['followers', 'following']);
+
         return fractal()
             ->serializeWith(new JsonApiSerializer())
             ->item($user, new UserTransformer(), 'users')
@@ -51,10 +51,7 @@ class UserController extends Controller
             ->respond();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UserRequest $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         $user = $this->userService->updateUser($request->validated(), $user);
 
@@ -64,13 +61,10 @@ class UserController extends Controller
             ->item($user, new UserTransformer(), 'users');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
         if (($user->id != Auth::id())) {
-            return response()->json(['error' => 'Você não tem autorização para realizar essa ação.'], 403);
+            return response()->json(['error' => 'You cannot do this.'], 403);
         }
 
         $this->userService->deleteUser($user);
