@@ -25,6 +25,7 @@ class PostFactory extends Factory
         return [
             'user_id' => User::factory(),
             'text' => $this->faker->paragraph(),
+            'updated_at' => $this->faker->datetime()
         ];
     }
 }
