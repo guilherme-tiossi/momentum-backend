@@ -7,9 +7,6 @@ use League\Fractal\TransformerAbstract;
 
 class TaskTransformer extends TransformerAbstract
 {
-    protected static array $processedTasks = [];
-    protected bool $flatMode = false;
-
     protected array $availableIncludes = ['user', 'parent'];
 
     public function transform(Task $task)
