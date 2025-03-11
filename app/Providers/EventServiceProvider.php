@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\CreatedPost;
 use App\Events\CreatedTask;
 use App\Events\FinishedTask;
+use App\Listeners\AddPostInterests;
 use App\Listeners\AddTaskInterests;
 use App\Listeners\UpdateUserStreak;
 use Illuminate\Auth\Events\Registered;
@@ -26,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         CreatedTask::class => [
             AddTaskInterests::class
+        ],
+        CreatedPost::class => [
+            AddPostInterests::class
         ]
     ];
 
