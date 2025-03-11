@@ -5,6 +5,7 @@ namespace App\Services;
 use Auth;
 use Carbon\Carbon;
 use App\Models\Task;
+use App\Events\CreatedTask;
 use App\Events\FinishedTask;
 
 class TaskService
@@ -43,7 +44,7 @@ class TaskService
 
         $task->save();
 
-        // event(new TaskCreated($task));
+        event(new CreatedTask($task));
 
         return $task;
     }

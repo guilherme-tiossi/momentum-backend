@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\CreatedTask;
 use App\Events\FinishedTask;
+use App\Listeners\AddTaskInterests;
 use App\Listeners\UpdateUserStreak;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         FinishedTask::class => [
             UpdateUserStreak::class
+        ],
+        CreatedTask::class => [
+            AddTaskInterests::class
         ]
     ];
 
