@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Auth;
 use App\Models\Post;
+use App\Events\CreatedPost;
 
 class PostService
 {
@@ -22,6 +23,8 @@ class PostService
         $post = Post::make($data['data']['attributes']);
         $post->user()->associate(Auth::id());
         $post->save();
+
+        event(new CreatedPost($post));
 
         return $post;
     }
