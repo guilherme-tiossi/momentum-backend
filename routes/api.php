@@ -33,6 +33,7 @@ Route::withoutMiddleware([Authenticate::class])->post('create-user', [App\Http\C
 Route::middleware('auth:sanctum')->apiResource('users', App\Http\Controllers\UserController::class);
 Route::middleware('auth:sanctum')->apiResource('tasks', App\Http\Controllers\TaskController::class);
 Route::middleware('auth:sanctum')->apiResource('posts', App\Http\Controllers\PostController::class);
+Route::middleware('auth:sanctum')->apiResource('likes', App\Http\Controllers\LikeController::class);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{userToFollow}/follow', [App\Http\Controllers\FollowController::class, 'follow']);
     Route::post('/users/{userToUnfollow}/unfollow', [App\Http\Controllers\FollowController::class, 'unfollow']);

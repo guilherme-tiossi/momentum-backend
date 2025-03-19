@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostRequest extends FormRequest
+class LikeRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,8 +14,8 @@ class PostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'data.type' => ['required', 'string', 'in:posts'],
-            'data.attributes.text' => ['required', 'string'],
+            'data.type' => ['required', 'string', 'in:likes'],
+            'data.relationships.post.data.id' => ['sometimes', 'integer', 'exists:posts,id'],
         ];
     }
 }
