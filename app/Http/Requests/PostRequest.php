@@ -16,6 +16,8 @@ class PostRequest extends FormRequest
         return [
             'data.type' => ['required', 'string', 'in:posts'],
             'data.attributes.text' => ['required', 'string'],
+            'data.attributes.attachments' => ['sometimes', 'nullable', 'array', 'required_unless:data.attributes.attachments,null'],
+            'data.attributes.attachments.*' => ['file', 'max:10240'],
         ];
     }
 }

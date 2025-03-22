@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('post_attachment', function (Blueprint $table) {
+        Schema::create('post_attachments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id')->constrained('posts')->onDelete('cascade');
             $table->foreignId('attachment_id')->constrained('attachments')->onDelete('cascade');

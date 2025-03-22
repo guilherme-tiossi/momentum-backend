@@ -4,18 +4,22 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\Post;
+use App\Models\Attachment;
 use App\Services\PostService;
 use App\Http\Requests\PostRequest;
+use App\Services\AttachmentService;
 use App\Transformers\PostTransformer;
 use League\Fractal\Serializer\JsonApiSerializer;
 
 class PostController extends Controller
 {
     private PostService $postService;
+    private AttachmentService $attachmentService;
 
-    public function __construct(PostService $postService)
+    public function __construct(PostService $postService, AttachmentService $attachmentService)
     {
         $this->postService = $postService;
+        $this->attachmentService = $attachmentService;
     }
 
     public function index()
@@ -30,7 +34,14 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
-        $post = $this->postService->createPost($request->validated());
+        $attachments = [];
+        if ($request->hasFile('data.attributes.attachments')) {
+            foreach ($request->file('data.attributes.attachments') as $file) {
+                $attachments[] = $this->attachmentService->createAttachment($file);
+            }
+        }
+
+        $post = $this->postService->createPost($request->validated(), $attachments);
 
         return fractal()
             ->serializeWith(new JsonApiSerializer())
@@ -48,7 +59,14 @@ class PostController extends Controller
 
     public function update(PostRequest $request, Post $post)
     {
-        $post = $this->postService->updatePost($request->validated(), $post);
+        $attachments = [];
+        if ($request->hasFile('data.attributes.attachments')) {
+            foreach ($request->file('data.attributes.attachments') as $file) {
+                $attachments[] = $this->attachmentService->createAttachment($file);
+            }
+        }
+
+        $post = $this->postService->updatePost($request->validated(), $post, $attachments);
 
         return fractal()
             ->parseIncludes(['address', 'plan'])

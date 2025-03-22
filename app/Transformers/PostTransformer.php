@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class PostTransformer extends TransformerAbstract
 {
-    protected array $defaultIncludes = ['user'];
+    protected array $defaultIncludes = ['user', 'attachments'];
 
     public function transform(Post $post)
     {
@@ -24,5 +24,10 @@ class PostTransformer extends TransformerAbstract
     public function includeUser(Post $post)
     {
         return $this->item($post->user, new UserTransformer(), 'users');
+    }
+
+    public function includeAttachments(Post $post)
+    {
+        return $this->collection($post->attachments, new AttachmentTransformer(), 'attachment');
     }
 }
