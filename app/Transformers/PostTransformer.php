@@ -18,6 +18,8 @@ class PostTransformer extends TransformerAbstract
             'reposts' => $post->reposts()->count(),
             'created_at' => $post->created_at ? $post->created_at->format('Y-m-d H:i:s') : null,
             'updated_at' => $post->updated_at ? $post->updated_at->format('Y-m-d H:i:s') : null,
+            'liked_by_user' => $post->liked_by_user,
+            'reposted_by_user' => $post->reposted_by_user
         ];
     }
 
