@@ -41,5 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{userToUnfollow}/unfollow', [App\Http\Controllers\FollowController::class, 'unfollow']);
     Route::get('/users/{user}/followers', [App\Http\Controllers\FollowController::class, 'followers']);
     Route::get('/users/{user}/following', [App\Http\Controllers\FollowController::class, 'following']);
+    Route::get('/users/{user}/profile_posts', [App\Http\Controllers\ProfileController::class, 'getUserProfilePosts']);
     Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index']);
 });
