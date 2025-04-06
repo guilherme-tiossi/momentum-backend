@@ -19,12 +19,14 @@ class UserTransformer extends TransformerAbstract
             'email' => $user->email,
             'username' => $user->username,
             'pfp' => $user->pfp,
+            'bio' => $user->bio,
             'header' => $user->header,
             'uses_default_pfp' => $user->uses_default_pfp,
             'uses_default_header' => $user->uses_default_header,
             'streak' => $user->streak,
             'followers' => ($user->followers && !$user->followers->isEmpty()) ? $user->followers->count() : null,
             'following' => ($user->following && !$user->following->isEmpty()) ? $user->following->count() : null,
+            'created_at' => $user->created_at->format('d/m/Y')
         ];
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
+            $table->text('bio')->nullable();
             $table->string('pfp')->default('1');
             $table->string('header')->default('1');
             $table->boolean('uses_default_pfp')->default(true);

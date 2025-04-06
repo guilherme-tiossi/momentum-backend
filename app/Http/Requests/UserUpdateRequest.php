@@ -18,6 +18,7 @@ class UserUpdateRequest extends FormRequest
             'data.attributes.name' => ['required', 'string'],
             'data.attributes.username' => ['required', 'string'],
             'data.attributes.email' => ['required', 'string', 'STRING'],
+            'data.attributes.bio' => ['sometimes', 'string'],
             'data.attributes.pfp' => ['sometimes', 'integer'],
             'data.attributes.header' => ['sometimes', 'string'],
             'data.attributes.uses_default_pfp' => ['sometimes', 'boolean'],
