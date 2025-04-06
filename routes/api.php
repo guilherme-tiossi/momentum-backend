@@ -1,8 +1,10 @@
 <?php
 
+use App\Transformers\UserTransformer;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use League\Fractal\Serializer\JsonApiSerializer;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +26,10 @@ Route::middleware('auth:sanctum')->get('check-auth', function () {
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return fractal()
+        ->serializeWith(new JsonApiSerializer())
+        ->item($request->user(), new UserTransformer(), 'users')
+        ->respond();
 });
 
 Route::withoutMiddleware([Authenticate::class])->post('create-user', [App\Http\Controllers\UserController::class, 'store'])
