@@ -21,6 +21,7 @@ class UserUpdateRequest extends FormRequest
             'data.attributes.bio' => ['sometimes', 'string'],
             'data.attributes.pfp' => ['sometimes', 'integer'],
             'data.attributes.header' => ['sometimes', 'string'],
+            'data.attributes.location' => ['sometimes', 'string'],
             'data.attributes.uses_default_pfp' => ['sometimes', 'boolean'],
             'data.attributes.uses_default_header' => ['sometimes', 'boolean'],
         ];

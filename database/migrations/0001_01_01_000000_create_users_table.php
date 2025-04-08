@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('bio')->nullable();
             $table->string('pfp')->default('1');
             $table->string('header')->default('1');
+            $table->string('location')->nullable();
             $table->boolean('uses_default_pfp')->default(true);
             $table->boolean('uses_default_header')->default(true);
             $table->timestamp('email_verified_at')->nullable();

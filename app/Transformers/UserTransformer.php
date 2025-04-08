@@ -20,6 +20,7 @@ class UserTransformer extends TransformerAbstract
             'username' => $user->username,
             'pfp' => $user->pfp,
             'bio' => $user->bio,
+            'location' => $user->location,
             'header' => $user->header,
             'uses_default_pfp' => $user->uses_default_pfp,
             'uses_default_header' => $user->uses_default_header,

@@ -22,6 +22,7 @@ class User extends Authenticatable
         'password',
         'username',
         'bio',
+        'location',
         'pfp',
         'header',
         'uses_default_pfp',
