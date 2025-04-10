@@ -11,17 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('recurrent_tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('recurrent_task_id')->nullable()->constrained()->cascadeOnDelete();
+
             $table->foreignId('parent_id')->nullable();
             $table->integer('level')->default(0);
+
             $table->string('title');
             $table->text('description')->nullable();
-            $table->date('date');
-            $table->boolean('finished')->default(false);
-            $table->timestamp('finished_at')->nullable();
+
+            $table->enum('recurrence_type', ['daily', 'weekly', 'custom'])->default('daily');
+            $table->string('days_of_week')->nullable();
+
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -33,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('recurrent_tasks');
     }
 };

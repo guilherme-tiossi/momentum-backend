@@ -32,7 +32,6 @@ class TaskFactory extends Factory
             'date' => Carbon::now()->format('Y-m-d'),
             'finished' => $this->faker->boolean(20),
             'level' => 0,
-            'includes_weekend' => $this->faker->boolean(50),
         ];
     }
 

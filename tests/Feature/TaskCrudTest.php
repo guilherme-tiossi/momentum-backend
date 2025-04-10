@@ -155,7 +155,6 @@ class TaskCrudTest extends TestCase
                     'description'       => 'Task Description',
                     'date'              => Carbon::now()->format('Y-m-d'),
                     'finished'          => false,
-                    'includes_weekend'  => false,
                 ],
             ],
         ];
