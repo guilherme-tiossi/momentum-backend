@@ -20,13 +20,8 @@ class TaskService
         $query = Task::with(['parent', 'subtasks', 'user'])
             ->byUser(Auth::id())
             ->byLevel($levelParam)
-            ->byFinished($finishedParam);
-
-        if ($date->isWeekend()) {
-            $query->includeWeekend(true, $dateParam);
-        } else {
-            $query->byDate($dateParam);
-        }
+            ->byFinished($finishedParam)
+            ->byDate($dateParam);
 
         return $query->get();
     }

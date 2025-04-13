@@ -1,9 +1,9 @@
 <?php
 
-use App\Transformers\UserTransformer;
-use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Transformers\UserTransformer;
+use Illuminate\Auth\Middleware\Authenticate;
 use League\Fractal\Serializer\JsonApiSerializer;
 
 /*
@@ -37,6 +37,7 @@ Route::withoutMiddleware([Authenticate::class])->post('create-user', [App\Http\C
 
 Route::middleware('auth:sanctum')->apiResource('users', App\Http\Controllers\UserController::class);
 Route::middleware('auth:sanctum')->apiResource('tasks', App\Http\Controllers\TaskController::class);
+Route::middleware('auth:sanctum')->apiResource('recurrent_tasks', App\Http\Controllers\RecurrentTaskController::class);
 Route::middleware('auth:sanctum')->apiResource('posts', App\Http\Controllers\PostController::class);
 Route::middleware('auth:sanctum')->apiResource('likes', App\Http\Controllers\LikeController::class);
 Route::middleware('auth:sanctum')->apiResource('reposts', App\Http\Controllers\RepostController::class);

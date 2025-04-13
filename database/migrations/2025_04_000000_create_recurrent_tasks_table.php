@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
 
-            $table->enum('recurrence_type', ['daily', 'weekly', 'custom'])->default('daily');
+            $table->enum('recurrency_type', ['daily', 'weekly', 'custom'])->default('daily');
             $table->string('days_of_week')->nullable();
 
             $table->date('start_date')->nullable();

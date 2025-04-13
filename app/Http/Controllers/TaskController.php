@@ -62,7 +62,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         if (($task->user_id != Auth::id())) {
-            return response()->json(['error' => 'Você não tem autorização para realizar essa ação.'], 403);
+            return response()->json(['error' => 'You cannot do this.'], 403);
         }
 
         $this->taskService->deleteTask($task);
