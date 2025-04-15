@@ -69,4 +69,11 @@ class TaskController extends Controller
 
         return response()->noContent();
     }
+
+    public function getTaskReport()
+    {
+        $results = $this->taskService->getTaskReport();
+
+        return $results;
+    }
 }

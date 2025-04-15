@@ -14,7 +14,6 @@ class TaskService
     {
         $dateParam = request()->date;
         $levelParam = request()->level;
-        $date = Carbon::parse($dateParam);
         $finishedParam = request()->finished;
 
         $query = Task::with(['parent', 'subtasks', 'user'])
@@ -81,8 +80,6 @@ class TaskService
         foreach (array_chunk($taskIds, 300) as $chunk) {
             Task::whereIn('id', $chunk)->delete();
         }
-
-        // event(new TaskDeleted($task));
     }
 
     private function getAllSubTasks(Task $task)
@@ -108,5 +105,32 @@ class TaskService
         }
 
         return $tasks;
+    }
+
+    public function getTaskReport()
+    {
+        $today = Carbon::now();
+
+        $dailyTasks = Task::byUser(Auth::id())
+            ->whereBetween('date', [$today->copy()->startOfDay(), $today->copy()->endOfDay()])
+            ->get();
+
+        $weeklyTasks = Task::byUser(Auth::id())
+            ->whereBetween('date', [$today->copy()->subDays(7), $today->copy()->endOfWeek()])
+            ->get();
+
+        $dailyFinished = $dailyTasks->where('finished', true)->count();
+        $weeklyFinished = $weeklyTasks->where('finished', true)->count();
+
+        return ['data' => [
+            'daily' => [
+                'finished' => $dailyFinished,
+                'total' => $dailyTasks->count(),
+            ],
+            'weekly' => [
+                'finished' => $weeklyFinished,
+                'total' => $weeklyTasks->count(),
+            ],
+        ]];
     }
 }
