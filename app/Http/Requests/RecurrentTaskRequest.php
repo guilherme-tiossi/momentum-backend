@@ -16,7 +16,7 @@ class RecurrentTaskRequest extends FormRequest
         return [
             'data.type' => ['required', 'string', 'in:recurrent_tasks'],
             'data.attributes.title' => ['required', 'string', 'max:255'],
-            'data.attributes.description' => ['required', 'string'],
+            'data.attributes.description' => ['sometimes', 'string'],
             'data.attributes.recurrency_type' => ['required', 'string', 'in:daily,weekly,custom'],
             'data.attributes.days_of_week' => ['sometimes', 'array'],
             'data.attributes.days_of_week.*' => ['sometimes', 'integer'],

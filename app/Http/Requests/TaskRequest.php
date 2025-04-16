@@ -16,7 +16,7 @@ class TaskRequest extends FormRequest
         return [
             'data.type' => ['required', 'string', 'in:tasks'],
             'data.attributes.title' => ['required', 'string', 'max:255'],
-            'data.attributes.description' => ['required', 'string'],
+            'data.attributes.description' => ['sometimes', 'string'],
             'data.attributes.date' => ['required', 'date'],
             'data.attributes.finished' => ['sometimes', 'boolean'],
 
