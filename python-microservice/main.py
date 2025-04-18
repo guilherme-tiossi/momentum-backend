@@ -2,10 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from rake_nltk import Rake
 import nltk
-
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('punkt_tab')
+from nltk.tokenize import word_tokenize
 
 app = FastAPI()
 
@@ -602,18 +599,13 @@ rake = Rake()
 @app.post("/extract-interests")
 def extract_interests(task_post: TaskPost):
     try:
-        text = task_post.text
-        rake.extract_keywords_from_text(text)
-        raw_phrases = rake.get_ranked_phrases()
+        text = task_post.text.lower()
+        tokens = word_tokenize(text)
+        keywords = {
+            word for word in tokens
+            if word.isalpha() and word not in UNWANTED_WORDS
+        }
 
-        words = []
-        for phrase in raw_phrases:
-            for word in phrase.lower().split():
-                if word not in UNWANTED_WORDS and word.isalpha():
-                    words.append(word)
-
-        keywords = list(dict.fromkeys(words))
-
-        return {"interests": keywords}
+        return {"interests": list(keywords)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
