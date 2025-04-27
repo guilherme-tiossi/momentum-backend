@@ -38,6 +38,13 @@ class RepostController extends Controller
             ->respond(201);
     }
 
+    public function depost()
+    {
+        $this->repostService->depost(request()->post);
+
+        return response()->noContent();
+    }
+
     public function destroy(Repost $repost)
     {
         if (($repost->user_id != Auth::id())) {

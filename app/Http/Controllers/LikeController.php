@@ -38,6 +38,13 @@ class LikeController extends Controller
             ->respond(201);
     }
 
+    public function unlike()
+    {
+        $this->likeService->unlike(request()->post);
+
+        return response()->noContent();
+    }
+
     public function destroy(Like $like)
     {
         if (($like->user_id != Auth::id())) {

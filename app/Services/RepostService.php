@@ -25,6 +25,11 @@ class RepostService
         return $repost;
     }
 
+    public function depost($post_id)
+    {
+        Repost::where('user_id', Auth::id())->where('post_id', $post_id)->delete();
+    }
+
     public function deleteRepost(Repost $repost)
     {
         $repost->delete();

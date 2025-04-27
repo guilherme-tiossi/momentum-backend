@@ -25,6 +25,11 @@ class LikeService
         return $like;
     }
 
+    public function unlike($post_id)
+    {
+        Like::where('user_id', Auth::id())->where('post_id', $post_id)->delete();
+    }
+
     public function deleteLike(Like $like)
     {
         $like->delete();

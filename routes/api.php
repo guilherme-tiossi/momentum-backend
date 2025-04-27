@@ -50,4 +50,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users/{user}/profile_posts', [App\Http\Controllers\ProfileController::class, 'getUserProfilePosts']);
     Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index']);
     Route::get('/taskReport', [App\Http\Controllers\TaskController::class, 'getTaskReport']);
+    Route::patch('/unlike', [App\Http\Controllers\LikeController::class, 'unlike']);
+    Route::patch('/depost', [App\Http\Controllers\RepostController::class, 'depost']);
 });
