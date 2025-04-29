@@ -30,6 +30,11 @@ class PostTransformer extends TransformerAbstract
 
     public function includeAttachments(Post $post)
     {
-        return $this->collection($post->attachments, new AttachmentTransformer(), 'attachment');
+        return $this->collection($post->attachments, new AttachmentTransformer(), 'attachments');
+    }
+
+    public function includeComments(Post $post)
+    {
+        return $this->collection($post->comments, new CommentTransformer(), 'comments');
     }
 }

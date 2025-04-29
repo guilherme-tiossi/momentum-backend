@@ -44,6 +44,11 @@ class Post extends Model
         return $this->hasMany(Repost::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function attachments(): BelongsToMany
     {
         return $this->belongsToMany(Attachment::class, 'post_attachments');

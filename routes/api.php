@@ -41,6 +41,9 @@ Route::middleware('auth:sanctum')->apiResource('recurrent_tasks', App\Http\Contr
 Route::middleware('auth:sanctum')->apiResource('posts', App\Http\Controllers\PostController::class);
 Route::middleware('auth:sanctum')->apiResource('likes', App\Http\Controllers\LikeController::class);
 Route::middleware('auth:sanctum')->apiResource('reposts', App\Http\Controllers\RepostController::class);
+Route::middleware('auth:sanctum')->apiResource('comments', App\Http\Controllers\CommentController::class);
+Route::middleware('auth:sanctum')->apiResource('comment_likes', App\Http\Controllers\CommentLikeController::class);
+Route::middleware('auth:sanctum')->apiResource('comment_reposts', App\Http\Controllers\CommentRepostController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{userToFollow}/follow', [App\Http\Controllers\FollowController::class, 'follow']);
@@ -52,4 +55,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/taskReport', [App\Http\Controllers\TaskController::class, 'getTaskReport']);
     Route::patch('/unlike', [App\Http\Controllers\LikeController::class, 'unlike']);
     Route::patch('/depost', [App\Http\Controllers\RepostController::class, 'depost']);
+    Route::patch('/comment_unlike', [App\Http\Controllers\LikeController::class, 'unlike']);
+    Route::patch('/uncoment', [App\Http\Controllers\RepostController::class, 'uncomment']);
 });
