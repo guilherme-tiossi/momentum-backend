@@ -42,7 +42,7 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment)
     {
-        if (($comment->user_id != Auth::id())) {
+        if ($comment->user_id != Auth::id()) {
             return response()->json(['error' => 'You cannot do this.'], 403);
         }
 

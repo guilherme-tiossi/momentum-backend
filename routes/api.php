@@ -43,7 +43,6 @@ Route::middleware('auth:sanctum')->apiResource('likes', App\Http\Controllers\Lik
 Route::middleware('auth:sanctum')->apiResource('reposts', App\Http\Controllers\RepostController::class);
 Route::middleware('auth:sanctum')->apiResource('comments', App\Http\Controllers\CommentController::class);
 Route::middleware('auth:sanctum')->apiResource('comment_likes', App\Http\Controllers\CommentLikeController::class);
-Route::middleware('auth:sanctum')->apiResource('comment_reposts', App\Http\Controllers\CommentRepostController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{userToFollow}/follow', [App\Http\Controllers\FollowController::class, 'follow']);

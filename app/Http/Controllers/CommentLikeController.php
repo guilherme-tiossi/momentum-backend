@@ -45,13 +45,13 @@ class CommentLikeController extends Controller
         return response()->noContent();
     }
 
-    public function destroy(CommentLike $like)
+    public function destroy(CommentLike $comment_like)
     {
-        if (($like->user_id != Auth::id())) {
+        if ($comment_like->user_id != Auth::id()) {
             return response()->json(['error' => 'You cannot do this.'], 403);
         }
 
-        $this->commentLikeService->deleteLike($like);
+        $this->commentLikeService->deleteLike($comment_like);
 
         return response()->noContent();
     }
