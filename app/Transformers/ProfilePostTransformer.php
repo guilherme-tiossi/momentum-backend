@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class ProfilePostTransformer extends TransformerAbstract
 {
-    protected array $defaultIncludes = ['user', 'attachments'];
+    protected array $defaultIncludes = ['user', 'attachments', 'comments'];
 
     public function transform(Post $post)
     {
@@ -32,5 +32,10 @@ class ProfilePostTransformer extends TransformerAbstract
     public function includeAttachments(Post $post)
     {
         return $this->collection($post->attachments, new AttachmentTransformer(), 'attachment');
+    }
+
+    public function includeComments(Post $post)
+    {
+        return $this->collection($post->comments, new CommentTransformer(), 'comments');
     }
 }
