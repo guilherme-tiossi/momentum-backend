@@ -14,7 +14,7 @@ class CommentTransformer extends TransformerAbstract
         return [
             'id' => $comment->id,
             'text' => $comment->text,
-            'likes' => $comment->likes()->count(),
+            'likes_counter' => $comment->likes()->count(),
             'created_at' => $comment->created_at ? $comment->created_at->format('Y-m-d H:i:s') : null,
             'updated_at' => $comment->updated_at ? $comment->updated_at->format('Y-m-d H:i:s') : null,
             'liked_by_user' => $comment->liked_by_user,

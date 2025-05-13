@@ -14,9 +14,9 @@ class ProfilePostTransformer extends TransformerAbstract
         return [
             'id' => $post->id,
             'text' => $post->text,
-            'likes' => $post->likes()->count(),
-            'reposts' => $post->reposts()->count(),
-            'comments' => $post->comments()->count(),
+            'likes_counter' => $post->likes()->count(),
+            'reposts_counter' => $post->reposts()->count(),
+            'comments_counter' => $post->comments()->count(),
             'created_at' => $post->created_at ? $post->created_at->format('Y-m-d H:i:s') : null,
             'updated_at' => $post->updated_at ? $post->updated_at->format('Y-m-d H:i:s') : null,
             'liked_by_user' => $post->liked_by_user,
