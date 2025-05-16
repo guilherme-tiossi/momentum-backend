@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/timeline', [App\Http\Controllers\TimelineController::class, 'index']);
     Route::get('/taskReport', [App\Http\Controllers\TaskController::class, 'getTaskReport']);
     Route::patch('/unlike', [App\Http\Controllers\LikeController::class, 'unlike']);
+    Route::patch('/unlike_comment', [App\Http\Controllers\CommentLikeController::class, 'unlike']);
     Route::patch('/depost', [App\Http\Controllers\RepostController::class, 'depost']);
     Route::patch('/comment_unlike', [App\Http\Controllers\LikeController::class, 'unlike']);
     Route::patch('/uncoment', [App\Http\Controllers\RepostController::class, 'uncomment']);

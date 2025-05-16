@@ -25,9 +25,9 @@ class CommentLikeService
         return $like;
     }
 
-    public function unlike($post_id)
+    public function unlike($comment_id)
     {
-        CommentLike::where('user_id', Auth::id())->where('post_id', $post_id)->delete();
+        CommentLike::where('user_id', Auth::id())->where('comment_id', $comment_id)->delete();
     }
 
     public function deleteLike(CommentLike $like)

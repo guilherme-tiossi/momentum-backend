@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\CommentLike;
 use Auth;
 use App\Models\User;
 use App\Models\Like;
@@ -15,16 +16,21 @@ class ProfileService
         $authId = Auth::id();
 
         $posts = Post::where('user_id', $user->id)
-            ->with('user')
+            ->with(['user', 'comments' => function ($query) use ($authId) {
+                $query->addSelect([
+                    'liked_by_user' => CommentLike::selectRaw('1')
+                        ->where('user_id', $authId)
+                        ->whereColumn('comment_id', 'comments.id')
+                        ->limit(1)
+                ]);
+            }])
             ->addSelect([
                 'liked_by_user' => Like::selectRaw('1')
-                    ->where('user_id', auth()->id())
+                    ->where('user_id', $authId)
                     ->whereColumn('post_id', 'posts.id')
-                    ->limit(1)
-            ])
-            ->addSelect([
+                    ->limit(1),
                 'reposted_by_user' => Repost::selectRaw('1')
-                    ->where('user_id', auth()->id())
+                    ->where('user_id', $authId)
                     ->whereColumn('post_id', 'posts.id')
                     ->limit(1)
             ])
