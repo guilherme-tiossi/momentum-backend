@@ -16,7 +16,7 @@ class CommentService
     {
         $comment = Comment::make(['text' => $data['data']['attributes']['text']]);
         $comment->user()->associate(Auth::id());
-        $comment->comment()->associate($data['data']['relationships']['comment']['data']['id']);
+        $comment->post()->associate($data['data']['relationships']['post']['data']['id']);
         $comment->save();
 
         return $comment;
