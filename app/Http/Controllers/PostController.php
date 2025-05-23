@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\Post;
-use App\Models\Attachment;
 use App\Services\PostService;
 use App\Http\Requests\PostRequest;
 use App\Services\AttachmentService;
@@ -49,9 +48,10 @@ class PostController extends Controller
             ->respond(201);
     }
 
-    public function show(post $post)
+    public function show(Post $post)
     {
         return fractal()
+            ->parseIncludes(['comments'])
             ->serializeWith(new JsonApiSerializer())
             ->item($post, new PostTransformer(), 'posts')
             ->respond();

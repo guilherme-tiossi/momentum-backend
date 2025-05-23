@@ -9,6 +9,8 @@ class PostTransformer extends TransformerAbstract
 {
     protected array $defaultIncludes = ['user', 'attachments'];
 
+    protected array $availableIncludes = ['comments'];
+
     public function transform(Post $post)
     {
         return [
