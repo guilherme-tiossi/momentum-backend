@@ -18,7 +18,14 @@ class Comment extends Model
     public function scopeByUser($query, $user_id)
     {
         if ($user_id) {
-            return $query->where('posts.user_id', $user_id);
+            return $query->where('comments.user_id', $user_id);
+        }
+    }
+
+    public function scopeByPost($query, $post_id)
+    {
+        if ($post_id) {
+            return $query->where('comments.post_id', $post_id);
         }
     }
 

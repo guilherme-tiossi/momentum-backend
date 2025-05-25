@@ -16,14 +16,7 @@ class ProfileService
         $authId = Auth::id();
 
         $posts = Post::where('user_id', $user->id)
-            ->with(['user', 'comments' => function ($query) use ($authId) {
-                $query->addSelect([
-                    'liked_by_user' => CommentLike::selectRaw('1')
-                        ->where('user_id', $authId)
-                        ->whereColumn('comment_id', 'comments.id')
-                        ->limit(1)
-                ]);
-            }])
+            ->with('user')
             ->addSelect([
                 'liked_by_user' => Like::selectRaw('1')
                     ->where('user_id', $authId)

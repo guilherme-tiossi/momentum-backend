@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class ProfilePostTransformer extends TransformerAbstract
 {
-    protected array $defaultIncludes = ['user', 'attachments', 'comments'];
+    protected array $defaultIncludes = ['user', 'attachments'];
 
     public function transform(Post $post)
     {

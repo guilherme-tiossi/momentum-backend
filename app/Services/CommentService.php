@@ -4,12 +4,22 @@ namespace App\Services;
 
 use Auth;
 use App\Models\Comment;
+use App\Models\CommentLike;
 
 class CommentService
 {
     public function listComments($post)
     {
-        return $post->comments;
+        $authId = Auth::id();
+
+        $comments = Comment::byPost($post->id)->addSelect([
+            'liked_by_user' => CommentLike::selectRaw('1')
+                ->where('user_id', $authId)
+                ->whereColumn('comment_id', 'comments.id')
+                ->limit(1)
+        ])->get();
+
+        return $comments;
     }
 
     public function createComment(array $data)
