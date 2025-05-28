@@ -18,7 +18,7 @@ class UserTransformer extends TransformerAbstract
             'name' => $user->name,
             'email' => $user->email,
             'username' => $user->username,
-            'pfp' => $user->pfp,
+            'pfp' => $user->pfp ? getenv('APP_URL') . '/storage/' . $user->pfp : null,
             'bio' => $user->bio,
             'location' => $user->location,
             'header' => $user->header,

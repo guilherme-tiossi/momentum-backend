@@ -22,7 +22,6 @@ class UserCrudTest extends TestCase
                     'username' => 'johndoe',
                     'email' => 'john@example.com',
                     'password' => 'secret123',
-                    'pfp' => 1,
                     'header' => 'header.jpg',
                     'uses_default_pfp' => true,
                     'uses_default_header' => false,

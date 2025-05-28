@@ -15,9 +15,13 @@ class UserService
         return $user;
     }
 
-    public function updateUser(array $data, User $user)
+    public function updateUser(array $data, User $user, $pfp_path = null)
     {
         $user->fill($data['data']['attributes']);
+
+        if ($pfp_path) {
+            $user->pfp = $pfp_path;
+        }
 
         $user->save();
 

@@ -51,7 +51,13 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, User $user)
     {
-        $user = $this->userService->updateUser($request->validated(), $user);
+        $path = null;
+        if ($request->file('data.attributes.pfp')) {
+            $file = $request->file('data.attributes.pfp');
+            $path = $file->store('pfps', 'public');
+        }
+
+        $user = $this->userService->updateUser($request->validated(), $user, $path);
 
         return fractal()
             ->parseIncludes(['address', 'plan'])

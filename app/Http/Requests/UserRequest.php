@@ -19,7 +19,7 @@ class UserRequest extends FormRequest
             'data.attributes.username' => ['required', 'string'],
             'data.attributes.email' => ['required', 'string', 'unique:users,email'],
             'data.attributes.password' => ['sometimes', 'string'],
-            'data.attributes.pfp' => ['sometimes', 'integer'],
+            'data.attributes.pfp' => ['sometimes', 'file', 'max:10240'],
             'data.attributes.header' => ['sometimes', 'string'],
             'data.attributes.uses_default_pfp' => ['sometimes', 'boolean'],
             'data.attributes.uses_default_header' => ['sometimes', 'boolean'],
